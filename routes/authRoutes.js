@@ -38,7 +38,6 @@ passport.use(
 
         // Extract the salt from the stored hash
         const storedHash = user.password;
-        console.log("Stored hash:", storedHash);
         const salt = storedHash.slice(0, 32); // Assuming the salt is 16 bytes (32 hex characters)
         const hash = storedHash.slice(32);
 
