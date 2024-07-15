@@ -7,8 +7,13 @@
   </head>
   <body>
     <h1>Welcome <%= firstName %>, You have successfully logged in.</h1>
-    <form action="/auth/logout" method="post">
-      <input type="submit" name="logout" value="Logout" />
-    </form>
+    <section>
+      <h2>I want to...</h2>
+      <a href="*">Create a new group</a>
+      <a href="*">Join an existing group</a>
+      <form action="/auth/logout" method="post">
+        <input type="submit" name="logout" value="Logout" />
+      </form>
+    </section>
   </body>
 </html>
