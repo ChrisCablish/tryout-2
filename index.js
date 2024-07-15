@@ -1,3 +1,4 @@
+require("dotenv");
 const app = require("./server");
 
-app.listen(3000);
+app.listen(process.env.PORT);
