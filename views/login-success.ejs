@@ -1,4 +1,14 @@
-<h1>Login Success</h1>
-<form action="/auth/logout" method="post">
-  <input type="submit" name="logout" value="Logout" />
-</form>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Success</title>
+  </head>
+  <body>
+    <h1>Welcome <%= firstName %>, You have successfully logged in.</h1>
+    <form action="/auth/logout" method="post">
+      <input type="submit" name="logout" value="Logout" />
+    </form>
+  </body>
+</html>

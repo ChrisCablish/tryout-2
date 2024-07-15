@@ -85,7 +85,11 @@ router.get("/login-failed", (req, res) => {
 });
 
 router.get("/login-success", (req, res) => {
-  res.render("login-success");
+  if (req.user && req.user.firstName) {
+    res.render("login-success", { firstName: req.user.firstName });
+  } else {
+    res.redirect("/auth/login");
+  }
 });
 
 router.post("/signup", async (req, res) => {
