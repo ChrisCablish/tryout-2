@@ -103,7 +103,7 @@ router.post("/signup", async (req, res) => {
       return res.status(409).json({ message: "User already exists" });
     }
 
-    createUser(email, password, firstName, lastName, req, res);
+    createUser(email, password, firstName, lastName, res);
     // // Generate a salt
     // const salt = crypto.randomBytes(16).toString("hex");
 

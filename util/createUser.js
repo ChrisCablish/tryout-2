@@ -1,4 +1,4 @@
-const createUser = (email, password, firstName, lastName, req, res) => {
+const createUser = (email, password, firstName, lastName, res) => {
   const crypto = require("crypto");
   const db = require("../models/index");
 
