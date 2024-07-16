@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const db = require("./models/index");
 const session = require("express-session");
 const sequelize = require("./config/database");
+const createUser = require("./util/createUser");
 
 const app = express();
 
@@ -33,5 +34,7 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 
 db.sequelize.sync({ force: true });
+
+createUser("chriscablish@hotmail.com", "123", "Chris", "Cablish");
 
 module.exports = app;

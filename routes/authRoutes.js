@@ -4,6 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const crypto = require("crypto");
 const router = express.Router();
 const db = require("../models/index");
+const createUser = require("../util/createUser");
 
 // Serialize user into the sessions
 passport.serializeUser((user, done) => {
@@ -84,9 +85,9 @@ router.get("/login-failed", (req, res) => {
   res.render("login-failed");
 });
 
-router.get("/login-success", (req, res) => {
+router.get("/create-join", (req, res) => {
   if (req.user && req.user.firstName) {
-    res.render("login-success", { firstName: req.user.firstName });
+    res.render("create-join", { firstName: req.user.firstName });
   } else {
     res.redirect("/auth/login");
   }
@@ -102,39 +103,40 @@ router.post("/signup", async (req, res) => {
       return res.status(409).json({ message: "User already exists" });
     }
 
-    // Generate a salt
-    const salt = crypto.randomBytes(16).toString("hex");
+    createUser(email, password, firstName, lastName, req, res);
+    // // Generate a salt
+    // const salt = crypto.randomBytes(16).toString("hex");
 
-    // Hash the password with the salt
-    crypto.pbkdf2(
-      password,
-      salt,
-      310000,
-      32,
-      "sha256",
-      async (err, hashedPassword) => {
-        if (err) {
-          return res.status(500).json({ message: "Error hashing password." });
-        }
+    // // Hash the password with the salt
+    // crypto.pbkdf2(
+    //   password,
+    //   salt,
+    //   310000,
+    //   32,
+    //   "sha256",
+    //   async (err, hashedPassword) => {
+    //     if (err) {
+    //       return res.status(500).json({ message: "Error hashing password." });
+    //     }
 
-        // Combine the salt and the hashed password
-        const combinedHash = salt + hashedPassword.toString("hex");
-        console.log("Storing combined hash:", combinedHash);
+    //     // Combine the salt and the hashed password
+    //     const combinedHash = salt + hashedPassword.toString("hex");
+    //     console.log("Storing combined hash:", combinedHash);
 
-        // Save the user with the combined hash
-        try {
-          const newUser = await db.User.create({
-            email,
-            password: combinedHash,
-            firstName,
-            lastName,
-          });
-          res.status(200).json({ message: "User created successfully." });
-        } catch (err) {
-          res.status(500).json({ message: "Error creating user." });
-        }
-      }
-    );
+    //     // Save the user with the combined hash
+    //     try {
+    //       const newUser = await db.User.create({
+    //         email,
+    //         password: combinedHash,
+    //         firstName,
+    //         lastName,
+    //       });
+    //       res.status(200).json({ message: "User created successfully." });
+    //     } catch (err) {
+    //       res.status(500).json({ message: "Error creating user." });
+    //     }
+    //   }
+    // );
   } catch (err) {
     res.status(500).json({ message: "Error creating user." });
   }
@@ -147,7 +149,7 @@ router.post(
     next();
   },
   passport.authenticate("local", {
-    successRedirect: "/auth/login-success",
+    successRedirect: "/auth/create-join",
     failureRedirect: "/auth/login-failed",
   })
 );
