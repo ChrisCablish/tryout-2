@@ -33,8 +33,20 @@ app.set("views", "views");
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 
-db.sequelize.sync({ force: true });
+const isDevelopment = process.env.NODE_ENV === "development";
 
-createUser("chriscablish@hotmail.com", "123", "Chris", "Cablish");
-
+if (isDevelopment) {
+  db.sequelize.sync({ force: true }).then(() => {
+    createUser(
+      "chriscablish@hotmail.com",
+      "123",
+      "Chris",
+      "Cablish",
+      null,
+      true
+    );
+  });
+} else {
+  db.sequelize.sync();
+}
 module.exports = app;

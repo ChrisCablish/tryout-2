@@ -1,6 +1,8 @@
-const createUser = (email, password, firstName, lastName, res) => {
-  const crypto = require("crypto");
-  const db = require("../models/index");
+const crypto = require("crypto");
+const db = require("../models/index");
+
+const createUser = (email, password, firstName, lastName, res, autoPop) => {
+  console.log("sillybilly");
 
   // Generate a salt
   const salt = crypto.randomBytes(16).toString("hex");
@@ -14,7 +16,9 @@ const createUser = (email, password, firstName, lastName, res) => {
     "sha256",
     async (err, hashedPassword) => {
       if (err) {
-        return res.status(500).json({ message: "Error hashing password." });
+        if (!autoPop) {
+          return res.status(500).json({ message: "Error hashing password." });
+        }
       }
 
       // Combine the salt and the hashed password
@@ -29,9 +33,13 @@ const createUser = (email, password, firstName, lastName, res) => {
           firstName,
           lastName,
         });
-        res.status(200).json({ message: "User created successfully." });
+        if (!autoPop) {
+          res.status(200).json({ message: "User created successfully." });
+        }
       } catch (err) {
-        res.status(500).json({ message: "Error creating user." });
+        if (!autoPop) {
+          res.status(500).json({ message: "Error creating user." });
+        }
       }
     }
   );
