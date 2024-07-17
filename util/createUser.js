@@ -2,8 +2,6 @@ const crypto = require("crypto");
 const db = require("../models/index");
 
 const createUser = (email, password, firstName, lastName, res, autoPop) => {
-  console.log("sillybilly");
-
   // Generate a salt
   const salt = crypto.randomBytes(16).toString("hex");
 
