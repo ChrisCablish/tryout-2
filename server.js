@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 const db = require("./models/index");
 const session = require("express-session");
 const sequelize = require("./config/database");
@@ -32,6 +33,7 @@ app.set("views", "views");
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 
 const isDevelopment = process.env.NODE_ENV === "development";
 
